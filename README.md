@@ -24,8 +24,6 @@ The **Drone Medication Delivery API** streamlines the process of managing drone 
 ## ⚙️ Base URL
 
 
-
-
 ---
 
 ## 📦 API Endpoints
@@ -124,7 +122,7 @@ GET http://localhost:5000/api/drones/battery/DRN005
   "data": "0.65"
 }
 
-💊 # 2. Load Drone with Medications
+# 💊 2. Load Drone with Medications
 
 
 **Endpoint:**
@@ -166,9 +164,9 @@ POST http://localhost:5000/api/drones/load/DRN005
 }
 
 
-🗺️ # API Flow Diagram
+# 🗺️ API Flow Diagram
 
-graph TD
+# graph TD
     A[Register Drone] --> B[Check Battery Level]
     B --> C[Load Drone with Medications]
     C --> D[Create Delivery Record]
@@ -183,39 +181,39 @@ graph TD
 | **Javascript**          | Strong typing & developer experience |
 
 
-🧪 # Setup & Installation
+# 🧪 Setup & Installation
 
-Clone the repository
+# Clone the repository
 
   git clone https://github.com/your-username/drone-medication-api.git
 
-Navigate to the project directory
+# Navigate to the project directory
 
   cd drone-medication-api
 
-Install dependencies
+# Install dependencies
 
   npm install
 
-Run database generation
+# Run database generation
 
   npm run db:generate
 
-Run database migrations
+# Run database migrations
 
   npm run db:migrate
 
-Start the server
+# Start the server
 
   npm run dev
 
-Acess the API 
+# Acess the API 
 
   http://localhost:5000/api
 
 
 
-👨‍💻 # Author
+# 👨‍💻 Author
 
 Kwadwo Ofosu Saka-Yeboah
 Full Stack Developer
