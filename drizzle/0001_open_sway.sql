@@ -1,0 +1,1 @@
+ALTER TABLE "deliveries" DROP CONSTRAINT "deliveries_drone_serial_number_unique";
