@@ -167,11 +167,14 @@ GET http://localhost:5000/api/drones/battery/DRN005
 
 **Response:**
 
+```json
 {
   "success": true,
   "message": "Drone battery capacity fetched successfully",
   "data": "0.65"
 }
+
+```
 
 # 💊 2. Load Drone with Medications
 
@@ -208,11 +211,14 @@ POST http://localhost:5000/api/drones/load/DRN005
 
 **Response:**
 
+```json
 {
   "success": true,
   "message": "Drone successfully loaded and medications are being delivered",
   "delivery_id": "ea98a338-4d50-4783-a2c9-42f7ed30ffda"
 }
+
+```
 
 
 # 🗺️ API Flow Diagram
