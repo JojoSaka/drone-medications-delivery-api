@@ -16,7 +16,59 @@ The **Drone Medication Delivery API** streamlines the process of managing drone 
 - 🛩️ Registering drones  
 - 💊 Loading drones with medications  
 - 🔋 Checking drone battery levels  
-- 🚚 Tracking deliveries and medications  
+- 🚚 Tracking deliveries and medications
+
+---
+
+## 🧩 System Requirements
+
+### **Entities**
+
+1. **Drone**
+   - `id`: Auto-generated unique ID  
+   - `serial_number`: String (max 100 chars)  
+   - `model`: Enum (Lightweight, Middleweight, Cruiserweight, Heavyweight)  
+   - `weight_limit`: Integer (max 500 grams)  
+   - `battery_capacity`: Integer (percentage 0–100)  
+   - `state`: Enum (IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING)
+
+2. **Medication**
+   - `id`: Auto-generated unique ID  
+   - `name`: String (allowed only letters, numbers, underscores, and hyphens)  
+   - `weight`: Float  
+   - `code`: String (allowed only uppercase letters, numbers, and underscores)  
+   - `image`: Image field (optional)
+
+3. **DroneLoad (relationship)**
+   - `drone`: Foreign key to Drone  
+   - `medication`: Foreign key to Medication  
+   - `loaded_at`: DateTime auto field  
+
+### **Relationships**
+- A **Drone** can carry **multiple medications** (many-to-many through DroneLoad).
+- A **Medication** can be loaded onto one **Drone** at a time.
+
+### **Rules**
+- Drones cannot be loaded if battery < 25%.
+- Total medication weight cannot exceed the drone’s weight limit.
+- Only drones in `IDLE` or `LOADING` state can accept new medications.
+
+---
+
+## 🔄 Workflows
+
+### 1. Register Drone
+Create and register a new drone to the system.
+
+### 2. Load Drone with Medications
+Add one or more medications to a drone — validation ensures weight and battery rules are respected.
+
+### 3. Check Drone Battery
+Fetch the current battery capacity for a given drone.
+
+### 4. View Loaded Medications
+List all medications currently loaded onto a drone.
+
 
 ---
 
