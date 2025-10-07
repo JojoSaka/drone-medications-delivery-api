@@ -51,7 +51,7 @@ The **Drone Medication Delivery API** streamlines the process of managing drone 
 ### **Rules**
 - Drones cannot be loaded if battery < 25%.
 - Total medication weight cannot exceed the drone’s weight limit.
-- Only drones in `IDLE` or `LOADING` state can accept new medications.
+- Only drones in `LOADING` state can accept new medications.
 
 ---
 
