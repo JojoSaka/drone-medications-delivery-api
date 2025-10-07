@@ -3,7 +3,6 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green?logo=node.js)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-Framework-lightgrey?logo=express)](https://expressjs.com/)
 [![Drizzle ORM](https://img.shields.io/badge/Drizzle%20ORM-TypeSafe-blueviolet)](https://orm.drizzle.team/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A **RESTful API** for managing **drones, medications, and deliveries** — built with **Node.js**, **Express**, and **Drizzle ORM**.
 
@@ -35,7 +34,8 @@ The **Drone Medication Delivery API** streamlines the process of managing drone 
 2. **Medication**
    - `id`: Auto-generated unique ID  
    - `name`: String (allowed only letters, numbers, underscores, and hyphens)  
-   - `weight`: Float  
+   - `weight`: Float
+   - `quantity`: integer
    - `code`: String (allowed only uppercase letters, numbers, and underscores)  
    - `image`: Image field (optional)
 
