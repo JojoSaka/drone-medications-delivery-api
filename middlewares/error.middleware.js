@@ -1,37 +1,54 @@
+// middleware/errorMiddleware.js
 const errorMiddleware = (err, req, res, next) => {
-    try {
-        let error = { ...err }
+  try {
+    let error = { ...err };
+    error.message = err.message;
 
-        error.message = err.message;
+    console.error("🔥 Error:", err);
 
-        console.error(err);
-
-        // Mongoose bad ObjectId
-        if (err.name === "CastError") {
-            const message = "Resource not found"
-            error = new Error(message);
-            error.statusCode = 404;
-        }
-
-        // Mongoose duplicate key
-        if (err.code === 11000) {
-            const message = "Duplicate field value entered"
-            error = new Error(message);
-            error.statusCode = 400;
-        }
-
-        // Mongoose validation error
-        if (err.name === "ValidationError") {
-            const message = Object.values(err.errors).map(val => val.message);
-            error = new Error(message.join(", "));
-            error.statusCode = 400;
-        }
-
-        res.status(error.statusCode || 500).json({success: false, message: error.message || "server error" });
-
-    } catch (error) {
-        next(error)
+    // PostgreSQL unique constraint violation
+    if (err.code === "23505") {
+      const message = "Duplicate field value entered";
+      error = new Error(message);
+      error.statusCode = 400;
     }
+
+    // Foreign key violation
+    if (err.code === "23503") {
+      const message = "Invalid reference: foreign key constraint violation";
+      error = new Error(message);
+      error.statusCode = 400;
+    }
+
+    // Not null violation
+    if (err.code === "23502") {
+      const message = "Missing required field: cannot be null";
+      error = new Error(message);
+      error.statusCode = 400;
+    }
+
+    // Invalid text representation (e.g., wrong data type)
+    if (err.code === "22P02") {
+      const message = "Invalid input syntax for type";
+      error = new Error(message);
+      error.statusCode = 400;
+    }
+
+    // Undefined table or column
+    if (err.code === "42P01" || err.code === "42703") {
+      const message = "Database schema error: undefined table or column";
+      error = new Error(message);
+      error.statusCode = 500;
+    }
+
+    // Default handler
+    res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Server Error",
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export default errorMiddleware;

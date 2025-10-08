@@ -2,6 +2,7 @@ import express from "express";
 import { PORT } from "./config/env.js";
 import droneRouter from "./routes/drone.routes.js";
 import deliveryRouter from "./routes/delivery.routes.js";
+import errorMiddleware from './middlewares/error.middleware.js';
 
 const app = express();
 

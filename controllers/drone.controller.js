@@ -30,7 +30,7 @@ export const addDrone = async (req, res, next) => {
       weight,
       model,
       batteryCapacity,
-    });
+    }).returning();
 
     res.status(201).json({
       success: true,
@@ -97,8 +97,15 @@ export const loadDrone = async (req, res, next) => {
       throw error;
     }
 
-    if (drone[0].state != "IDLE") {
-      const error = new Error("Drone is not in idle state");
+    if(drone[0].state == "IDLE") {
+      await db
+      .update(drones)
+      .set({ state: "LOADING" })
+      .where(eq(drones.serialNumber, serialNumber));
+    }
+
+    if (drone[0].state != "LOADING") {
+      const error = new Error("Drone is not in the loading state");
       error.statusCode = 400;
       throw error;
     }
@@ -156,14 +163,14 @@ export const loadDrone = async (req, res, next) => {
       .set({ state: "LOADED" })
       .where(eq(drones.serialNumber, serialNumber));
 
-    await db
-      .update(drones)
-      .set({ state: "DELIVERING" })
-      .where(eq(drones.serialNumber, serialNumber));
+    // await db
+    //   .update(drones)
+    //   .set({ state: "DELIVERING" })
+    //   .where(eq(drones.serialNumber, serialNumber));
 
     res.status(201).json({
       success: true,
-      message: "Drone succesfully loaded and medications are being delivered",
+      message: "Drone succesfully loaded and medications are ready to be delivered",
       delivery_id: delivery.id,
     });
   } catch (err) {
@@ -274,5 +281,5 @@ export const getMedicationsLoadedOnDrone = async (req, res, next) => {
 };
 
 export const updateDroneState = async (req, res, next) => {
-  res.send("Update drone state")
+  
 }

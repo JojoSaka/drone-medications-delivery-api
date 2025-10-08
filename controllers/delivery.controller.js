@@ -41,4 +41,3 @@ export const getDeliveryDetails = async (req, res, next) => {
     next(error);
   }
 };
-

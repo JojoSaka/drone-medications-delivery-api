@@ -4,7 +4,7 @@ import { addDrone, getAllDrones, getAllIdleDrones, getDroneBattery, getDroneDeta
 const droneRouter = Router();
 
 droneRouter.get("/", getAllDrones)
-droneRouter.post("/", addDrone)
+droneRouter.post("/add", addDrone)
 droneRouter.post("/loaded/:serialnumber", getMedicationsLoadedOnDrone)
 droneRouter.get("/idle", getAllIdleDrones)
 droneRouter.get("/:id", getDroneDetails)
