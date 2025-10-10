@@ -7,7 +7,8 @@ import {
   medications,
 } from "../database/schema.js";
 import { droneSchema, medicationsListSchema } from "../lib/utils.js";
-import { success } from "zod";
+
+const ALLOWED_STATES = ['IDLE', 'LOADING', 'LOADED', 'DELIVERING', 'DELIVERED', 'RETURNING'];
 
 export const addDrone = async (req, res, next) => {
   try {
@@ -288,29 +289,47 @@ export const getMedicationsLoadedOnDrone = async (req, res, next) => {
 };
 
 export const updateDroneState = async (req, res, next) => {
-  const { serialnumber } = req.params.serialnumber;
+  const serialnumber = req.params.serialnumber;
 
   const { state } = req.body;
 
   try {
-    const existingDrone = await db.select()
+    if (!ALLOWED_STATES.includes(state)) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid drone state. Allowed values: ${ALLOWED_STATES.join(", ")}`
+      });
+    }
+
+    const [existingDrone] = await db.select()
     .from(drones)
     .where(eq(drones.serialNumber, serialnumber))
     .limit(1);
 
-    if(existingDrone.length == 0) {
+    if(!existingDrone) {
       const error = new Error("Drone not found");
       error.statusCode = 404;
       throw error;
     }
 
+    if (existingDrone.state === state) {
+      return res.status(200).json({
+        success: true,
+        message: `Drone state is already '${state}'`
+      });
+    }
+
     await db.update(drones)
-    .set({ state: state})
+    .set({ state })
     .where(eq(drones.serialNumber, serialnumber))
 
     res.status(200).json({
       success: true,
-      message: "Drone state has been updated"
+      message: "Drone state has been updated",
+      data: {
+        previousState: existingDrone.state,
+        newState: state
+      }
     })
     
   } catch(error) {

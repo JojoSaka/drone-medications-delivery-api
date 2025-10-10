@@ -10,6 +10,6 @@ droneRouter.get("/idle", getAllIdleDrones)
 droneRouter.get("/:id", getDroneDetails)
 droneRouter.post("/load/:serialnumber", loadDrone)
 droneRouter.get("/battery/:serialnumber", getDroneBattery)
-droneRouter.patch("/:serialnumber", updateDroneState)
+droneRouter.patch("/:serialnumber/state", updateDroneState)
 
 export default droneRouter;
