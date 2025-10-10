@@ -279,7 +279,3 @@ export const getMedicationsLoadedOnDrone = async (req, res, next) => {
     next(error);
   }
 };
-
-export const updateDroneState = async (req, res, next) => {
-  
-}
