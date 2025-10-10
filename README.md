@@ -74,6 +74,7 @@ List all medications currently loaded onto a drone.
 
 ## ⚙️ Base URL
 
+https://drone-medications-delivery-api.onrender.com/
 
 ---
 
@@ -85,7 +86,7 @@ List all medications currently loaded onto a drone.
 
 **Endpoint:**
 
-POST /drones/add
+POST api/v1/drones/add
 
 
 **Request Body:**
@@ -121,7 +122,7 @@ Response:
 
 **Endpoint:**
 
-GET /drones
+GET api/v1/drones
 
 **Response:**
 
@@ -158,12 +159,12 @@ GET /drones
 
 **Endpoint:**
 
-GET /drones/battery/:serialNumber
+GET api/v1/drones/battery/:serialNumber
 
 
 **Example:**
 
-GET http://localhost:5000/api/drones/battery/DRN005
+GET https://drone-medications-delivery-api.onrender.com/api/v1/drones/battery/DRN005
 
 **Response:**
 
@@ -181,12 +182,12 @@ GET http://localhost:5000/api/drones/battery/DRN005
 
 **Endpoint:**
 
-POST /drones/load/:serialNumber
+POST api/v1/drones/load/:serialNumber
 
 
 **Example:**
 
-POST http://localhost:5000/api/drones/load/DRN005
+POST https://drone-medications-delivery-api.onrender.com/api/v1/drones/load/DRN005
 
 **Request body:**
 
