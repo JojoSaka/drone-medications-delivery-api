@@ -7,6 +7,7 @@ import {
   medications,
 } from "../database/schema.js";
 import { droneSchema, medicationsListSchema } from "../lib/utils.js";
+import { success } from "zod";
 
 export const addDrone = async (req, res, next) => {
   try {
@@ -66,6 +67,12 @@ export const getDroneDetails = async (req, res, next) => {
       .from(drones)
       .where(eq(drones.id, id))
       .limit(1);
+
+    if(droneDetails.length == 0) {
+      const error = new Error("Drone not found");
+      error.statusCode = 404;
+      throw error;
+    }
 
     res.status(200).json({
       success: true,
@@ -281,5 +288,32 @@ export const getMedicationsLoadedOnDrone = async (req, res, next) => {
 };
 
 export const updateDroneState = async (req, res, next) => {
-  
+  const { serialnumber } = req.params.serialnumber;
+
+  const { state } = req.body;
+
+  try {
+    const existingDrone = await db.select()
+    .from(drones)
+    .where(eq(drones.serialNumber, serialnumber))
+    .limit(1);
+
+    if(existingDrone.length == 0) {
+      const error = new Error("Drone not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    await db.update(drones)
+    .set({ state: state})
+    .where(eq(drones.serialNumber, serialnumber))
+
+    res.status(200).json({
+      success: true,
+      message: "Drone state has been updated"
+    })
+    
+  } catch(error) {
+    next(error)
+  }
 }
